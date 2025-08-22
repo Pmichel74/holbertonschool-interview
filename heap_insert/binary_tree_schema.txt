@@ -1,0 +1,134 @@
+SCHÉMA D'ARBRE BINAIRE
+========================
+
+1. STRUCTURE DE BASE D'UN NŒUD
+------------------------------
+Chaque nœud contient :
+- Une valeur (n)
+- Un pointeur vers le parent
+- Un pointeur vers l'enfant gauche
+- Un pointeur vers l'enfant droit
+
+    ┌─────────────┐
+    │   NODE      │
+    ├─────────────┤
+    │ n: value    │
+    │ parent: *   │
+    │ left: *     │
+    │ right: *    │
+    └─────────────┘
+
+2. EXEMPLE D'ARBRE BINAIRE SIMPLE
+----------------------------------
+
+         98
+        /  \
+       12   128
+      / \
+     54  16
+
+Représentation détaillée :
+
+            ┌─────┐
+            │ 98  │ (root, parent = NULL)
+            └─────┘
+           /       \
+          /         \
+    ┌─────┐       ┌─────┐
+    │ 12  │       │ 128 │
+    └─────┘       └─────┘
+   /       \           
+  /         \           
+┌─────┐   ┌─────┐       
+│ 54  │   │ 16  │
+└─────┘   └─────┘
+(12 has TWO children: 54 on left, 16 on right)
+
+3. EXEMPLE D'ARBRE BINAIRE PLUS COMPLEXE
+-----------------------------------------
+
+              98
+           /      \
+          12       128
+         / \      /   \
+        54  16   402  64
+       /
+      27
+
+Représentation ASCII :
+
+                    98
+                  /    \
+                 /      \
+                12      128
+               / \      /  \
+              54  16  402  64
+             /
+            27
+
+4. PROPRIÉTÉS DES ARBRES BINAIRES
+----------------------------------
+- Chaque nœud peut avoir AU MAXIMUM 2 enfants
+- L'enfant gauche est généralement ≤ parent
+- L'enfant droit est généralement > parent (dans un BST)
+- La racine (root) n'a pas de parent
+- Les feuilles n'ont pas d'enfants
+
+5. TYPES SPÉCIAUX D'ARBRES BINAIRES
+------------------------------------
+
+ARBRE BINAIRE COMPLET :
+Tous les niveaux sont remplis sauf possiblement le dernier
+
+         98
+       /    \
+      12    128
+     / \    / \
+    54  16 402 64
+
+ARBRE BINAIRE PARFAIT :
+Tous les niveaux sont complètement remplis
+
+         98
+       /    \
+      12    128
+     / \    / \
+    54  16 402 64
+
+ARBRE BINAIRE DE RECHERCHE (BST) :
+Pour chaque nœud : gauche ≤ nœud < droit
+
+         50
+       /    \
+      30     70
+     / \    / \
+    20  40 60  80
+
+6. REPRÉSENTATION EN MÉMOIRE
+-----------------------------
+Si nous créons l'arbre : 98 -> 12 -> 54
+
+new_node = binary_tree_node(NULL, 98);     // Racine
+left_child = binary_tree_node(new_node, 12);  // Enfant gauche
+left_left = binary_tree_node(left_child, 54); // Petit-enfant
+
+Mémoire :
+┌─────────┐    ┌─────────┐    ┌─────────┐
+│ n: 98   │←───│ n: 12   │←───│ n: 54   │
+│parent:NULL│  │parent:98│    │parent:12│
+│left: 12 │    │left: 54 │    │left:NULL│
+│right:NULL│   │right:NULL│   │right:NULL│
+└─────────┘    └─────────┘    └─────────┘
+
+7. PARCOURS D'ARBRES BINAIRES
+------------------------------
+Pour l'arbre :
+         1
+       /   \
+      2     3
+     / \
+    4   5
+
+PRÉORDRE (racine, gauche, droite) : 1, 2, 4, 5, 3
+INORDRE (gauche, racine, droite) : 4, 2, 5, 1, 3
+POSTORDRE (gauche, droite, racine) : 4, 5, 2, 3, 1
