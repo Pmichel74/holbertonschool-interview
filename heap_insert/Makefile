@@ -45,6 +45,10 @@ test: $(TARGET)
 test-examples: $(EXAMPLES)
 	./$(EXAMPLES)
 
+# Check Betty coding style
+betty: 
+	./betty_check.sh
+
 # Show help
 help:
 	@echo "Available targets:"
@@ -54,6 +58,7 @@ help:
 	@echo "  re           - Clean and rebuild"
 	@echo "  test         - Build and run the main program"
 	@echo "  test-examples - Build and run the detailed examples"
+	@echo "  betty        - Check Betty coding style"
 	@echo "  help         - Show this help message"
 
-.PHONY: all examples clean re test test-examples help
+.PHONY: all examples clean re test test-examples betty help
