@@ -226,7 +226,7 @@ This project is part of the Holberton School interview preparation curriculum.
 
 ## 👨‍💻 Author
 
-**Your Name** - Holbertonschool Student
+**Pmichel74** - Holbertonschool Student
 
 ---
 
