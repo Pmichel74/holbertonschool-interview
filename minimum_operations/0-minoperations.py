@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # Shebang: indique au système d'utiliser Python 3 pour exécuter ce script
+"""
+Module qui calcule le nombre minimum d'opérations pour obtenir n caractères H.
+
+Ce module contient une fonction qui résout le problème des opérations minimales
+en utilisant uniquement deux opérations : "Copier Tout" et "Coller".
+La solution utilise la décomposition en facteurs premiers.
+"""
 
 
 def minOperations(n):
