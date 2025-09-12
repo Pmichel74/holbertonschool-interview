@@ -203,32 +203,8 @@ Add `printf()` to trace execution:
 printf("DEBUG: Cell [%d][%d] = %d\n", i, j, grid[i][j]);
 ```
 
-## � Additional Resources
-
-### Scientific References:
-- [Abelian Sandpile Model (Wikipedia)](https://en.wikipedia.org/wiki/Abelian_sandpile_model)
-- [Self-Organized Criticality](https://en.wikipedia.org/wiki/Self-organized_criticality)
-
-### Useful Links:
-- [Betty Coding Style](https://github.com/holbertonschool/Betty)
-- [GCC Documentation](https://gcc.gnu.org/onlinedocs/)
-
-## 👥 Contributors
-
-- **Main Author**: [Your Name]
-- **School**: Holberton School
-- **Project**: Interview Preparation - Sandpiles
 
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## 🎉 Acknowledgments
-
-Thanks to the Holberton School community and the mathematicians who developed sandpile theory.
-
----
-
-**Happy coding! 🚀** 
-
-*"In every grain of sand lies the story of an avalanche." - Anonymous*
