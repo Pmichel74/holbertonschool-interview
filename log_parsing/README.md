@@ -1,233 +1,344 @@
-# 🔐 Lockboxes - Algorithm Challenge
+# 📊 Log Parsing Project
 
-![Python](https://img.shields.io/badge/language-Python-blue.svg)
-![Algorithm](https://img.shields.io/badge/algorithm-graph_traversal-green.svg)
-![Difficulty](https://img.shields.io/badge/difficulty-medium-orange.svg)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![PEP8](https://img.shields.io/badge/code%20style-PEP8-green.svg)](https://www.python.org/dev/peps/pep-0008/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## 📋 Problem Description
+> 🚀 Un projet Python pour analyser et traiter les logs HTTP en temps réel
 
-You have `n` numbered boxes placed in front of you. Each box is locked and can only be opened with the correct key. Some boxes may contain keys that can unlock other boxes.
+## 📋 Table des matières
 
-**The Challenge:** Determine if **all boxes** can be opened starting with the first box (box 0), which is always unlocked.
+- [📝 Description du projet](#-description-du-projet)
+- [✨ Fonctionnalités](#-fonctionnalités)
+- [🔍 Spécifications](#-spécifications)
+- [🏗️ Architecture](#️-architecture)
+- [🚀 Installation](#-installation)
+- [📖 Utilisation](#-utilisation)
+- [📊 Format des logs](#-format-des-logs)
+- [🧪 Tests](#-tests)
+- [📈 Exemples](#-exemples)
+- [🤝 Contribution](#-contribution)
+- [📄 Licence](#-licence)
 
-## 🎯 Algorithm Overview
+## 📝 Description du projet
 
-This problem is essentially a **graph traversal** where:
-- 📦 **Boxes** = Nodes
-- 🔑 **Keys** = Edges  
-- 🎯 **Goal** = Reach all nodes (boxes) starting from node 0
+**0. Log parsing** - *mandatory*  
+**Score: 100.00%** (Checks completed: 100.00%)
 
-### Solution Approach: **Breadth-First Search (BFS)**
+Ce projet consiste à développer un script Python qui lit et analyse des logs HTTP ligne par ligne depuis l'entrée standard (stdin) et calcule des métriques en temps réel. Le script doit afficher périodiquement des statistiques sur les codes de statut HTTP et la taille totale des fichiers traités.
 
-1. 🚀 **Start** with box 0 (always unlocked)
-2. 🔍 **Explore** all keys in the current box
-3. 🔓 **Unlock** new boxes with available keys
-4. 🔄 **Repeat** until no more boxes can be opened
-5. ✅ **Check** if all boxes have been opened
+### 🎯 Objectif principal
 
-## 📁 Project Structure
+Créer un outil d'analyse de logs capable de :
+- Traiter des logs au format spécifique
+- Calculer la taille totale des fichiers
+- Compter les occurrences de chaque code de statut HTTP
+- Afficher les statistiques périodiquement
 
+## 🔍 Spécifications
+
+### 📥 Format d'entrée
+
+Le script traite des logs au format suivant :
 ```
-lockboxes/
-├── 📄 0-lockboxes.py    # Main algorithm implementation
-├── 🧪 0-main.py         # Test cases
-└── 📖 README.md         # This documentation
-```
-
-## 💻 Usage
-
-### 🔧 Function Signature
-```python
-def canUnlockAll(boxes):
-    """
-    Determines if all boxes can be opened using available keys
-    
-    Args:
-        boxes (list): List of lists where boxes[i] contains keys
-                     for other boxes
-    
-    Returns:
-        bool: True if all boxes can be opened, False otherwise
-    """
+<IP Address> - [<date>] "GET /projects/260 HTTP/1.1" <status code> <file size>
 ```
 
-### 📝 Example Usage
+**⚠️ Important :** Si le format n'est pas exactement celui-ci, la ligne doit être ignorée.
+
+### 📤 Format de sortie
+
+Après **chaque 10 lignes** et/ou une **interruption clavier** (CTRL + C), le script affiche ces statistiques depuis le début :
+
+#### Taille totale des fichiers
+```
+File size: <total size>
+```
+Où `<total size>` est la somme de tous les `<file size>` précédents.
+
+#### Nombre de lignes par code de statut
+Codes de statut possibles : **200, 301, 400, 401, 403, 404, 405 et 500**
+
+Format :
+```
+<status code>: <number>
+```
+
+**Règles importantes :**
+- ❌ Si un code de statut n'apparaît pas ou n'est pas un entier, ne rien afficher pour ce code
+- 📈 Les codes de statut doivent être affichés **dans l'ordre croissant**
+- 🚫 Le code ne doit pas s'exécuter lors d'un import (utiliser `if __name__ == "__main__":`)
+
+### 🎲 Générateur de test fourni
 
 ```python
 #!/usr/bin/python3
-from lockboxes import canUnlockAll
+import random
+import sys
+from time import sleep
+import datetime
 
-# Example 1: All boxes can be opened
-boxes = [[1], [2], [3], [4], []]
-result = canUnlockAll(boxes)
-print(result)  # Output: True
-
-# Example 2: Complex key distribution
-boxes = [[1, 4, 6], [2], [0, 4, 1], [5, 6, 2], [3], [4, 1], [6]]
-result = canUnlockAll(boxes)
-print(result)  # Output: True
-
-# Example 3: Not all boxes can be opened
-boxes = [[1, 4], [2], [0, 4, 1], [3], [], [4, 1], [5, 6]]
-result = canUnlockAll(boxes)
-print(result)  # Output: False
+for i in range(10000):
+    sleep(random.random())
+    sys.stdout.write("{:d}.{:d}.{:d}.{:d} - [{}] \"GET /projects/260 HTTP/1.1\" {} {}\n".format(
+        random.randint(1, 255), random.randint(1, 255), random.randint(1, 255), random.randint(1, 255),
+        datetime.datetime.now(),
+        random.choice([200, 301, 400, 401, 403, 404, 405, 500]),
+        random.randint(1, 1024)
+    ))
+    sys.stdout.flush()
 ```
 
-## 🧪 Test Cases
+### 📊 Exemple d'exécution
 
-### ✅ Test Case 1: Linear Chain
-```python
-boxes = [[1], [2], [3], [4], []]
-# Box 0 → Box 1 → Box 2 → Box 3 → Box 4
-# Result: True ✅
-```
-
-**Explanation:** Each box contains the key to the next box, forming a chain.
-
-### ✅ Test Case 2: Complex Network
-```python
-boxes = [[1, 4, 6], [2], [0, 4, 1], [5, 6, 2], [3], [4, 1], [6]]
-# Multiple keys per box, interconnected network
-# Result: True ✅
-```
-
-**Explanation:** Multiple pathways exist to reach all boxes.
-
-### ❌ Test Case 3: Unreachable Box
-```python
-boxes = [[1, 4], [2], [0, 4, 1], [3], [], [4, 1], [5, 6]]
-# Box 5 contains key to box 6, but box 5 is unreachable
-# Result: False ❌
-```
-
-**Explanation:** No key exists to open box 5, making box 6 unreachable.
-
-## 🔍 Algorithm Walkthrough
-
-### Example: `boxes = [[1, 4], [2], [0, 4], [3], [], [4], [5]]`
-
-```
-Initial State:
-📦 Box 0: [1, 4] (unlocked)
-🔒 Box 1: [2] (locked)
-🔒 Box 2: [0, 4] (locked)
-🔒 Box 3: [3] (locked)
-🔒 Box 4: [] (locked)
-🔒 Box 5: [4] (locked)
-🔒 Box 6: [5] (locked)
-
-Step 1: Start with Box 0
-🔑 Keys found: [1, 4]
-📦 Unlock Box 1 and Box 4
-
-Step 2: Process Box 1
-🔑 Keys found: [2]
-📦 Unlock Box 2
-
-Step 3: Process Box 4
-🔑 Keys found: []
-📦 No new boxes to unlock
-
-Step 4: Process Box 2
-🔑 Keys found: [0, 4] (already have these)
-📦 No new boxes to unlock
-
-Final: Boxes 0,1,2,4 are unlocked
-❌ Boxes 3,5,6 remain locked → Return False
-```
-
-## ⚡ Performance Analysis
-
-| Aspect | Complexity |
-|--------|------------|
-| **Time** | `O(N + K)` |
-| **Space** | `O(N)` |
-
-Where:
-- `N` = Number of boxes
-- `K` = Total number of keys across all boxes
-
-### **Why O(N + K)?**
-- We visit each box at most once: `O(N)`
-- We process each key at most once: `O(K)`
-- BFS ensures optimal traversal
-
-## 🎓 Key Concepts
-
-### **Graph Theory**
-- 🔗 **Directed Graph:** Keys point from one box to another
-- 🚀 **Reachability:** Can we reach all nodes from node 0?
-- 🌐 **Connected Component:** All reachable boxes form one component
-
-### **Algorithm Design**
-- 📊 **BFS Traversal:** Systematic exploration of boxes
-- 📋 **State Tracking:** Remember which boxes are opened
-- 🔄 **Queue Management:** Process boxes in discovery order
-
-### **Problem-Solving Pattern**
-This algorithm pattern applies to:
-- 🗺️ **Network connectivity** problems
-- 🧩 **Puzzle solving** (escape rooms, mazes)
-- 🔐 **Access control** systems
-- 🌐 **Web crawling** and link analysis
-
-## 🚀 Running the Code
-
-### **Execute Tests**
 ```bash
-python3 0-main.py
+alexa@ubuntu:~/log_parsing$ ./0-generator.py | ./0-stats.py 
+File size: 5213
+200: 2
+401: 1
+403: 2
+404: 1
+405: 1
+500: 3
+File size: 11320
+200: 3
+301: 2
+400: 1
+401: 2
+403: 3
+404: 4
+405: 2
+500: 3
+File size: 16305
+200: 3
+301: 3
+400: 4
+401: 2
+403: 5
+404: 5
+405: 4
+500: 4
+^CFile size: 17146
+200: 4
+301: 3
+400: 4
+401: 2
+403: 6
+404: 6
+405: 4
+500: 4
+Traceback (most recent call last):
+  File "./0-stats.py", line 15, in <module>
+Traceback (most recent call last):
+  File "./0-generator.py", line 8, in <module>
+    for line in sys.stdin:
+KeyboardInterrupt
+    sleep(random.random())
+KeyboardInterrupt
+alexa@ubuntu:~$
 ```
 
-### **Expected Output**
+**ℹ️ Note :** Dans cet exemple, vous aurez des valeurs aléatoires - il est normal de ne pas avoir la même sortie.
+
+## ✨ Fonctionnalités
+
+- 🔍 **Parsing en temps réel** : Analyse les logs HTTP ligne par ligne depuis stdin
+- 📊 **Statistiques détaillées** : Compte les codes de statut HTTP et calcule la taille totale
+- ⏰ **Rapports périodiques** : Affiche les statistiques toutes les 10 lignes
+- 🛑 **Gestion des interruptions** : Affiche les statistiques lors d'une interruption clavier (CTRL + C)
+- 🎯 **Codes de statut supportés** : 200, 301, 400, 401, 403, 404, 405, 500
+- 🛡️ **Gestion d'erreurs** : Ignore les lignes mal formatées
+- 🔄 **Importable** : Le code ne s'exécute pas lors d'un import
+
+## 🏗️ Architecture
+
 ```
-True
-True
-False
+log_parsing/
+├── 0-stats.py          # Script principal de parsing des logs
+├── 0-generator.py      # Générateur de logs de test
+└── README.md          # Documentation du projet
 ```
 
-### **Import in Your Code**
-```python
-from lockboxes import canUnlockAll
+## 🚀 Installation
 
-# Your implementation here
+### Prérequis
+
+- 🐍 **Python 3.8+**
+- 📦 Aucun package externe requis (utilise uniquement la bibliothèque standard)
+
+### Installation
+
+1. **Clonez le repository** :
+   ```bash
+   git clone https://github.com/Pmichel74/holbertonschool-interview.git
+   cd holbertonschool-interview/log_parsing
+   ```
+
+2. **Rendez les scripts exécutables** :
+   ```bash
+   chmod +x 0-stats.py
+   chmod +x 0-generator.py
+   ```
+
+3. **Vérifiez l'installation** :
+   ```bash
+   python3 --version
+   ```
+
+## 📖 Utilisation
+
+### 🔧 Scripts disponibles
+
+#### 📊 0-stats.py - Analyseur de logs
+
+Lit les logs depuis stdin et affiche les statistiques en temps réel.
+
+```bash
+# Utilisation basique
+cat access.log | ./0-stats.py
+
+# Avec un générateur de logs
+./0-generator.py | ./0-stats.py
+
+# Avec des logs en temps réel
+tail -f /var/log/nginx/access.log | ./0-stats.py
 ```
 
-## 🐛 Edge Cases Handled
+#### 🎲 0-generator.py - Générateur de logs
 
-✅ **Empty boxes list:** `[]` → `True` (vacuous truth)  
-✅ **Single box:** `[[]]` → `True` (box 0 is unlocked)  
-✅ **Invalid keys:** Keys pointing to non-existent boxes are ignored  
-✅ **Duplicate keys:** Same key multiple times works correctly  
-✅ **Self-referencing:** Box containing key to itself  
+Génère des logs HTTP aléatoires pour les tests.
 
-## 🎯 Learning Objectives
+```bash
+# Générer des logs de test
+./0-generator.py
 
-After completing this project, you'll understand:
+# Rediriger vers un fichier
+./0-generator.py > test_logs.txt
 
-- 🔍 **Graph Traversal** algorithms (BFS/DFS)
-- 📊 **State Management** in algorithmic problems
-- 🧠 **Problem Decomposition** from story to algorithm
-- ⚡ **Efficiency Analysis** and optimization
-- 🐛 **Edge Case Handling** in real-world scenarios
+# Utiliser avec l'analyseur
+./0-generator.py | ./0-stats.py
+```
 
-## 🤝 Contributing
+## 📊 Format des logs
 
-This is an interview preparation project. Focus on:
-- 📝 Clean, readable code
-- 🧪 Comprehensive testing
-- 📚 Clear documentation
-- ⚡ Efficient algorithms
+Le script supporte le format de logs spécifique :
+
+```
+<IP Address> - [<date>] "GET /projects/260 HTTP/1.1" <status code> <file size>
+```
+
+### Exemple de ligne de log valide :
+```
+192.168.1.100 - [26/Sep/2025:10:30:45 +0000] "GET /projects/260 HTTP/1.1" 200 512
+```
+
+### Champs analysés :
+- **IP_ADDRESS** : Adresse IP du client
+- **DATE_TIME** : Date et heure de la requête
+- **STATUS_CODE** : Code de statut HTTP (doit être un des codes supportés)
+- **FILE_SIZE** : Taille du fichier en octets (doit être un entier)
+
+## 🧪 Tests
+
+### Test avec le générateur intégré
+
+```bash
+# Test complet : génération + analyse
+./0-generator.py | ./0-stats.py
+```
+
+### Test avec des données manuelles
+
+```bash
+# Utilisation avec des données manuelles
+echo '192.168.1.1 - [26/Sep/2025:10:00:00 +0000] "GET /projects/260 HTTP/1.1" 200 1024' | ./0-stats.py
+echo '192.168.1.2 - [26/Sep/2025:10:01:00 +0000] "GET /projects/260 HTTP/1.1" 404 512' | ./0-stats.py
+```
+
+### Vérification du style de code
+
+```bash
+# Vérifier la conformité PEP8
+pycodestyle 0-stats.py
+pycodestyle 0-generator.py
+```
+
+## 📈 Exemples
+
+### Exemple d'exécution
+
+```bash
+$ ./0-generator.py | ./0-stats.py
+File size: 5213
+200: 2
+401: 1
+403: 2
+404: 1
+405: 1
+500: 3
+File size: 11320
+200: 3
+301: 2
+400: 1
+401: 2
+403: 3
+404: 4
+405: 2
+500: 3
+^CFile size: 17146
+200: 4
+301: 3
+400: 4
+401: 2
+403: 6
+404: 6
+405: 4
+500: 4
+```
+
+### Analyse détaillée
+
+- **File size** : Taille totale cumulée de tous les fichiers servis
+- **200** : Nombre de requêtes réussies (OK)
+- **301** : Nombre de redirections permanentes
+- **400** : Nombre d'erreurs de requête du client
+- **401** : Nombre d'erreurs d'authentification
+- **403** : Nombre d'accès interdits
+- **404** : Nombre de ressources non trouvées
+- **405** : Nombre de méthodes non autorisées
+- **500** : Nombre d'erreurs serveur internes
+
+
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! 🎉
+
+1. **Fork** le projet
+2. **Créez** une branche pour votre fonctionnalité (`git checkout -b feature/AmazingFeature`)
+3. **Committez** vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. **Poussez** vers la branche (`git push origin feature/AmazingFeature`)
+5. **Ouvrez** une Pull Request
+
+### Standards de code
+
+- 📏 Respect des conventions PEP8
+- 🧪 Tests des nouvelles fonctionnalités
+- 📚 Documentation claire des fonctions
+- 🔄 Compatibilité avec Python 3.8+
+
+## 📄 Licence
+
+Ce projet est sous licence MIT - voir le fichier [LICENSE](../LICENSE) pour plus de détails.
 
 ---
 
-## 📜 License
+<div align="center">
 
-This project is part of the Holberton School interview preparation curriculum.
+**Créé avec ❤️ pour Holberton School**
 
-## 👨‍💻 Author
+⭐ Si ce projet vous plaît, n'hésitez pas à lui donner une étoile !
 
-**Pmichel74** - Holbertonschool Student
+[⬆️ Retour en haut](#-log-parsing-project)
 
----
-
-⭐ **Happy Coding!** ⭐
+</div>
