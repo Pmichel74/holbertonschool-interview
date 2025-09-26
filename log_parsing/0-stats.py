@@ -9,7 +9,7 @@ import sys
 def print_stats(total_size, status_codes):
     """
     Print computed statistics.
-    
+
     Args:
         total_size: Total file size
         status_codes: Dictionary with counts of each status code
@@ -24,8 +24,8 @@ if __name__ == "__main__":
     total_size = 0
     line_count = 0
     status_codes = {"200": 0, "301": 0, "400": 0, "401": 0,
-                   "403": 0, "404": 0, "405": 0, "500": 0}
-    
+                  "403": 0, "404": 0, "405": 0, "500": 0}
+
     try:
         for line in sys.stdin:
             line_count += 1
