@@ -24,14 +24,14 @@ if __name__ == "__main__":
     total_size = 0
     line_count = 0
     status_codes = {
-    "200": 0,
-    "301": 0,
-    "400": 0,
-    "401": 0,
-    "403": 0,
-    "404": 0,
-    "405": 0,
-    "500": 0
+        "200": 0,
+        "301": 0,
+        "400": 0,
+        "401": 0,
+        "403": 0,
+        "404": 0,
+        "405": 0,
+        "500": 0
     }
 
     try:
@@ -41,7 +41,7 @@ if __name__ == "__main__":
             # Parse the line
             try:
                 parts = line.split()
-                # Ensure we have at least 2 parts to extract status and file size
+                # Ensure at least 2 parts to extract status and file size
                 if len(parts) < 2:
                     continue
 
