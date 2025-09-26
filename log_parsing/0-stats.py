@@ -4,6 +4,7 @@ Script that reads stdin line by line and computes metrics.
 """
 
 import sys
+import re
 
 
 def print_stats(total_size, status_codes):
@@ -26,27 +27,41 @@ if __name__ == "__main__":
     status_codes = {"200": 0, "301": 0, "400": 0, "401": 0,
                    "403": 0, "404": 0, "405": 0, "500": 0}
     
+    # Regex pattern to match the expected log format
+    pattern = r'^\S+ - \[.+\] "GET /projects/260 HTTP/1.1" (\d+) (\d+)$'
+    
     try:
         for line in sys.stdin:
             line_count += 1
             
-            # Parse the line
-            try:
-                parts = line.split()
-                # Check if the line has the expected format
-                if len(parts) < 9:
-                    continue
-                
-                # Extract status code and file size
-                status = parts[-2]
-                file_size = parts[-1]
+            # Parse the line using regex
+            match = re.match(pattern, line.strip())
+            if match:
+                status = match.group(1)
+                file_size = int(match.group(2))
                 
                 # Update status code count if it's a valid code
                 if status in status_codes:
                     status_codes[status] += 1
                     
                 # Update total file size
-                total_size += int(file_size)
+                total_size += file_size
+            else:
+                # Try the basic approach for other formats
+                try:
+                    parts = line.strip().split()
+                    if len(parts) > 2:
+                        status = parts[-2]
+                        file_size = int(parts[-1])
+                        
+                        # Update status code count if it's a valid code
+                        if status in status_codes:
+                            status_codes[status] += 1
+                            
+                        # Update total file size
+                        total_size += file_size
+                except (ValueError, IndexError):
+                    continue
                 
             except (IndexError, ValueError):
                 # Skip lines with invalid format
