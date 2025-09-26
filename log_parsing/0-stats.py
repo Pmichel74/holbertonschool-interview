@@ -33,8 +33,8 @@ if __name__ == "__main__":
             # Parse the line
             try:
                 parts = line.split()
-                # Check if the line has the expected format
-                if len(parts) < 9:
+                # Ensure we have at least 2 parts to extract status and file size
+                if len(parts) < 2:
                     continue
                 
                 # Extract status code and file size
