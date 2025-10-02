@@ -1,33 +1,57 @@
-# 📊 Log Parsing Project
+# Log Parsing Project
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
-[![PEP8](https://img.shields.io/badge/code%20style-PEP8-green.svg)](https://www.python.org/dev/peps/pep-0008/)
+[![PEP8](https://img.shields.io## Fonctionnalités
+
+- **Parsing en temps réel** : Analyse les logs HTTP ligne par ligne depuis stdin
+- **Statistiques détaillées** : Compte les codes de statut HTTP et calcule la taille totale
+- **## Licence
+
+Ce projet est sous licence MIT - voir le fichier [LICENSE](../LICENSE) pour plus de détails.
+
+---
+
+<div align="center">
+
+**Créé pour Holberton School**
+
+Si ce projet vous plaît, n'hésitez pas à lui donner une étoile !
+
+[Retour en haut](#log-parsing-project)
+
+</div>iques** : Affiche les statistiques toutes les 10 lignes
+- **Gestion des interruptions** : Affiche les statistiques lors d'une interruption clavier (CTRL + C)
+- **Codes de statut supportés** : 200, 301, 400, 401, 403, 404, 405, 500
+- **Gestion d'erreurs** : Ignore les lignes mal formatées
+- **Importable** : Le code ne s'exécute pas lors d'un import
+
+## Architecture%20style-PEP8-green.svg)](https://www.python.org/dev/peps/pep-0008/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-> 🚀 Un projet Python pour analyser et traiter les logs HTTP en temps réel
+> Un projet Python pour analyser et traiter les logs HTTP en temps réel
 
-## 📋 Table des matières
+## Table des matières
 
-- [📝 Description du projet](#-description-du-projet)
-- [✨ Fonctionnalités](#-fonctionnalités)
-- [🔍 Spécifications](#-spécifications)
-- [🏗️ Architecture](#️-architecture)
-- [🚀 Installation](#-installation)
-- [📖 Utilisation](#-utilisation)
-- [📊 Format des logs](#-format-des-logs)
-- [🧪 Tests](#-tests)
-- [📈 Exemples](#-exemples)
-- [🤝 Contribution](#-contribution)
-- [📄 Licence](#-licence)
+- [Description du projet](#description-du-projet)
+- [Fonctionnalités](#fonctionnalités)
+- [Spécifications](#spécifications)
+- [Architecture](#architecture)
+- [Installation](#installation)
+- [Utilisation](#utilisation)
+- [Format des logs](#format-des-logs)
+- [Tests](#tests)
+- [Exemples](#exemples)
+- [Contribution](#contribution)
+- [Licence](#licence)
 
-## 📝 Description du projet
+## Description du projet
 
 **0. Log parsing** - *mandatory*  
 **Score: 100.00%** (Checks completed: 100.00%)
 
 Ce projet consiste à développer un script Python qui lit et analyse des logs HTTP ligne par ligne depuis l'entrée standard (stdin) et calcule des métriques en temps réel. Le script doit afficher périodiquement des statistiques sur les codes de statut HTTP et la taille totale des fichiers traités.
 
-### 🎯 Objectif principal
+### Objectif principal
 
 Créer un outil d'analyse de logs capable de :
 - Traiter des logs au format spécifique
@@ -35,18 +59,18 @@ Créer un outil d'analyse de logs capable de :
 - Compter les occurrences de chaque code de statut HTTP
 - Afficher les statistiques périodiquement
 
-## 🔍 Spécifications
+## Spécifications
 
-### 📥 Format d'entrée
+### Format d'entrée
 
 Le script traite des logs au format suivant :
 ```
 <IP Address> - [<date>] "GET /projects/260 HTTP/1.1" <status code> <file size>
 ```
 
-**⚠️ Important :** Si le format n'est pas exactement celui-ci, la ligne doit être ignorée.
+**Important :** Si le format n'est pas exactement celui-ci, la ligne doit être ignorée.
 
-### 📤 Format de sortie
+### Format de sortie
 
 Après **chaque 10 lignes** et/ou une **interruption clavier** (CTRL + C), le script affiche ces statistiques depuis le début :
 
@@ -65,11 +89,11 @@ Format :
 ```
 
 **Règles importantes :**
-- ❌ Si un code de statut n'apparaît pas ou n'est pas un entier, ne rien afficher pour ce code
-- 📈 Les codes de statut doivent être affichés **dans l'ordre croissant**
-- 🚫 Le code ne doit pas s'exécuter lors d'un import (utiliser `if __name__ == "__main__":`)
+- Si un code de statut n'apparaît pas ou n'est pas un entier, ne rien afficher pour ce code
+- Les codes de statut doivent être affichés **dans l'ordre croissant**
+- Le code ne doit pas s'exécuter lors d'un import (utiliser `if __name__ == "__main__":`)
 
-### 🎲 Générateur de test fourni
+### Générateur de test fourni
 
 ```python
 #!/usr/bin/python3
@@ -89,7 +113,7 @@ for i in range(10000):
     sys.stdout.flush()
 ```
 
-### 📊 Exemple d'exécution
+### Exemple d'exécution
 
 ```bash
 alexa@ubuntu:~/log_parsing$ ./0-generator.py | ./0-stats.py 
@@ -138,9 +162,9 @@ KeyboardInterrupt
 alexa@ubuntu:~$
 ```
 
-**ℹ️ Note :** Dans cet exemple, vous aurez des valeurs aléatoires - il est normal de ne pas avoir la même sortie.
+**Note :** Dans cet exemple, vous aurez des valeurs aléatoires - il est normal de ne pas avoir la même sortie.
 
-## ✨ Fonctionnalités
+## Fonctionnalités
 
 - 🔍 **Parsing en temps réel** : Analyse les logs HTTP ligne par ligne depuis stdin
 - 📊 **Statistiques détaillées** : Compte les codes de statut HTTP et calcule la taille totale
@@ -159,12 +183,12 @@ log_parsing/
 └── README.md          # Documentation du projet
 ```
 
-## 🚀 Installation
+## Installation
 
 ### Prérequis
 
-- 🐍 **Python 3.8+**
-- 📦 Aucun package externe requis (utilise uniquement la bibliothèque standard)
+- **Python 3.8+**
+- Aucun package externe requis (utilise uniquement la bibliothèque standard)
 
 ### Installation
 
@@ -185,11 +209,11 @@ log_parsing/
    python3 --version
    ```
 
-## 📖 Utilisation
+## Utilisation
 
-### 🔧 Scripts disponibles
+### Scripts disponibles
 
-#### 📊 0-stats.py - Analyseur de logs
+#### 0-stats.py - Analyseur de logs
 
 Lit les logs depuis stdin et affiche les statistiques en temps réel.
 
@@ -204,7 +228,7 @@ cat access.log | ./0-stats.py
 tail -f /var/log/nginx/access.log | ./0-stats.py
 ```
 
-#### 🎲 0-generator.py - Générateur de logs
+#### 0-generator.py - Générateur de logs
 
 Génère des logs HTTP aléatoires pour les tests.
 
@@ -219,7 +243,7 @@ Génère des logs HTTP aléatoires pour les tests.
 ./0-generator.py | ./0-stats.py
 ```
 
-## 📊 Format des logs
+## Format des logs
 
 Le script supporte le format de logs spécifique :
 
@@ -238,7 +262,7 @@ Le script supporte le format de logs spécifique :
 - **STATUS_CODE** : Code de statut HTTP (doit être un des codes supportés)
 - **FILE_SIZE** : Taille du fichier en octets (doit être un entier)
 
-## 🧪 Tests
+## Tests
 
 ### Test avec le générateur intégré
 
@@ -263,7 +287,7 @@ pycodestyle 0-stats.py
 pycodestyle 0-generator.py
 ```
 
-## 📈 Exemples
+## Exemples
 
 ### Exemple d'exécution
 
@@ -310,9 +334,9 @@ File size: 11320
 
 
 
-## 🤝 Contribution
+## Contribution
 
-Les contributions sont les bienvenues ! 🎉
+Les contributions sont les bienvenues !
 
 1. **Fork** le projet
 2. **Créez** une branche pour votre fonctionnalité (`git checkout -b feature/AmazingFeature`)
@@ -322,12 +346,12 @@ Les contributions sont les bienvenues ! 🎉
 
 ### Standards de code
 
-- 📏 Respect des conventions PEP8
-- 🧪 Tests des nouvelles fonctionnalités
-- 📚 Documentation claire des fonctions
-- 🔄 Compatibilité avec Python 3.8+
+- Respect des conventions PEP8
+- Tests des nouvelles fonctionnalités
+- Documentation claire des fonctions
+- Compatibilité avec Python 3.8+
 
-## 📄 Licence
+## Licence
 
 Ce projet est sous licence MIT - voir le fichier [LICENSE](../LICENSE) pour plus de détails.
 
