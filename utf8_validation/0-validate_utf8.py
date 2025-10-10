@@ -53,4 +53,3 @@ def validUTF8(data):
 
     # All characters must be complete
     return nb_bytes_remaining == 0
-    
