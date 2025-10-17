@@ -8,27 +8,27 @@ static void slide_left(int *line, size_t size)
 {
     size_t i, j, k;
     /* Étape 1 : Glisse tous les éléments non-zéro vers la gauche */
-    for (i = 0, j = 0; i < size; i++) /* i parcourt, j indique où placer */
+    for (i = 0, j = 0; i < size; i++)
     {
-        if (line[i] != 0) /* Si c'est un nombre (pas zéro) */
+        if (line[i] != 0)
         {
-            line[j] = line[i]; /* Place le nombre à la position j */
-            if (i != j) /* Si on a déplacé le nombre */
-                line[i] = 0; /* Efface l'ancienne position */
-            j++; /* Prochaine position disponible */
+            line[j] = line[i];
+            if (i != j)
+                line[i] = 0;
+            j++;
         }
     }
     /* Étape 2 : Fusionne les valeurs identiques adjacentes */
-    for (i = 0; i < size - 1; i++) /* Parcourt jusqu'à l'avant-dernier */
+    for (i = 0; i < size - 1; i++)
     {
-        if (line[i] != 0 && line[i] == line[i + 1]) /* Si deux voisins identiques */
+        if (line[i] != 0 && line[i] == line[i + 1])
         {
-            line[i] *= 2; /* Double la valeur du premier */
-            line[i + 1] = 0; /* Efface le second */
+            line[i] *= 2;
+            line[i + 1] = 0;
         }
     }
     /* Étape 3 : Re-glisse pour supprimer les zéros créés par la fusion */
-    for (i = 0, j = 0; i < size; i++) /* Même logique qu'à l'étape 1 */
+    for (i = 0, j = 0; i < size; i++)
     {
         if (line[i] != 0)
         {
@@ -49,29 +49,29 @@ static void slide_left(int *line, size_t size)
  */
 static void slide_right(int *line, size_t size)
 {
-    size_t i, j, k;
+    size_t i, j, write_pos;
     /* Étape 1 : Glisse tous les éléments non-zéro vers la droite */
-    for (i = size - 1, j = size - 1; i < size; i--) /* i parcourt de droite à gauche */
+    for (i = size - 1, j = size - 1; i < size; i--)
     {
-        if (line[i] != 0) /* Si c'est un nombre (pas zéro) */
+        if (line[i] != 0)
         {
-            line[j] = line[i]; /* Place le nombre à la position j */
-            if (i != j) /* Si on a déplacé le nombre */
-                line[i] = 0; /* Efface l'ancienne position */
-            j--; /* Prochaine position disponible (vers la gauche) */
+            line[j] = line[i];
+            if (i != j)
+                line[i] = 0;
+            j--;
         }
     }
     /* Étape 2 : Fusionne les valeurs identiques adjacentes (de droite à gauche) */
-    for (i = size - 1; i > 0; i--) /* Parcourt de la fin vers le début */
+    for (i = size - 1; i > 0; i--)
     {
-        if (line[i] != 0 && line[i] == line[i - 1]) /* Si deux voisins identiques */
+        if (line[i] != 0 && line[i] == line[i - 1])
         {
-            line[i] *= 2; /* Double la valeur à droite */
-            line[i - 1] = 0; /* Efface celui de gauche */
+            line[i] *= 2;
+            line[i - 1] = 0;
         }
     }
     /* Étape 3 : Re-glisse pour supprimer les zéros créés par la fusion */
-    for (i = size - 1, j = size - 1; i < size; i--) /* Même logique qu'à l'étape 1 */
+    for (i = size - 1, j = size - 1; i < size; i--)
     {
         if (line[i] != 0)
         {
@@ -82,8 +82,9 @@ static void slide_right(int *line, size_t size)
         }
     }
     /* Étape 4 : Remplit les positions restantes à gauche avec des zéros */
-    for (k = 0; k <= j && k < size; k++)
-        line[k] = 0;
+    write_pos = (j >= size) ? 0 : j + 1;
+    for (i = 0; i < write_pos; i++)
+        line[i] = 0;
 }
 /**
  * slide_line - Glisse et fusionne un tableau d'entiers
@@ -95,17 +96,17 @@ static void slide_right(int *line, size_t size)
  */
 int slide_line(int *line, size_t size, int direction)
 {
-    if (line == NULL || size == 0) /* Vérifie les paramètres invalides */
-        return (0); /* Échec : paramètres invalides */
-    if (direction == SLIDE_LEFT) /* Si direction vers la gauche */
+    if (line == NULL || size == 0)
+        return (0);
+    if (direction == SLIDE_LEFT)
     {
-        slide_left(line, size); /* Glisse vers la gauche */
-        return (1); /* Succès */
+        slide_left(line, size);
+        return (1);
     }
-    else if (direction == SLIDE_RIGHT) /* Si direction vers la droite */
+    else if (direction == SLIDE_RIGHT)
     {
-        slide_right(line, size); /* Glisse vers la droite */
-        return (1); /* Succès */
+        slide_right(line, size);
+        return (1);
     }
-    return (0); /* Échec : direction invalide */
+    return (0);
 }
