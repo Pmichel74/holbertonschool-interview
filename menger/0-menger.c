@@ -3,12 +3,12 @@
 #include <math.h>
 
 /**
- * is_filled - Détermine si une position doit être remplie (#) ou vide (espace)
- * @x: Coordonnée x
- * @y: Coordonnée y
- * @level: Niveau actuel
+ * is_filled - Check if a position should be filled
+ * @x: X coordinate
+ * @y: Y coordinate
+ * @level: Current level
  *
- * Return: 1 si la position doit être remplie, 0 sinon
+ * Return: 1 if position should be filled, 0 otherwise
  */
 int is_filled(int x, int y, int level)
 {
@@ -27,11 +27,11 @@ int is_filled(int x, int y, int level)
 }
 
 /**
- * menger - Dessine un Menger Sponge 2D
- * @level: Niveau du Menger Sponge à dessiner
+ * menger - Draw a 2D Menger Sponge
+ * @level: Level of the Menger Sponge to draw
  *
- * Description: Dessine un Menger Sponge de niveau donné.
- *              Si level < 0, ne fait rien.
+ * Description: Draws a Menger Sponge at the given level.
+ *              Does nothing if level < 0.
  */
 void menger(int level)
 {
