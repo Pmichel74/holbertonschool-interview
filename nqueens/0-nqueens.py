@@ -1,33 +1,34 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
 """
 N Queens Problem Solver
-Solves the N queens puzzle using backtracking algorithm
-Optimized version combining efficiency and clarity
+Resout le puzzle des N reines avec l'algorithme de backtracking
+Version optimisee combinant efficacite et clarte
 """
 import sys
 
 
 def is_safe(board, row, col):
     """
-    Check if it's safe to place a queen at position (row, col)
+    Verifie si on peut placer une reine a la position (row, col)
 
     Args:
-        board: List of queen positions [[row, col], ...]
-        row: Current row to check
-        col: Current column to place queen
+        board: Liste des positions des reines [[row, col], ...]
+        row: Ligne actuelle a verifier
+        col: Colonne ou placer la reine
 
     Returns:
-        True if safe to place queen, False otherwise
+        True si la position est safe, False sinon
     """
-    # Check if any previously placed queen attacks this position
+    # Verifie si une reine deja placee attaque cette position
     for queen in board:
-        # Same column
+        # Meme colonne
         if queen[1] == col:
             return False
 
-        # Both diagonals checked with one elegant condition
-        # Diagonal \: row difference = col difference
-        # Diagonal /: row difference = col difference (but opposite signs)
+        # Les deux diagonales verifiees avec une seule condition elegante
+        # Diagonale \: difference de lignes = difference de colonnes
+        # Diagonale /: difference de lignes = difference de colonnes (signes opposes)
         if abs(queen[0] - row) == abs(queen[1] - col):
             return False
 
@@ -36,39 +37,39 @@ def is_safe(board, row, col):
 
 def solve_nqueens(n, row, board, solutions):
     """
-    Recursively solve N Queens using backtracking
+    Resout le probleme des N reines en utilisant le backtracking recursif
 
     Args:
-        n: Size of the board (N x N)
-        row: Current row to place queen
-        board: Current board state (list of queen positions)
-        solutions: List to store all solutions
+        n: Taille de l'echiquier (N x N)
+        row: Ligne actuelle ou placer une reine
+        board: Etat actuel de l'echiquier (liste des positions des reines)
+        solutions: Liste pour stocker toutes les solutions
     """
-    # Base case: all queens placed successfully
+    # Cas de base: toutes les reines ont ete placees avec succes
     if row == n:
-        # Make a copy of the solution to avoid reference issues
+        # Cree une copie de la solution pour eviter les problemes de reference
         solutions.append(board[:])
         return
 
-    # Try placing queen in each column of current row
+    # Essaie de placer une reine dans chaque colonne de la ligne actuelle
     for col in range(n):
         if is_safe(board, row, col):
-            # Place queen
+            # Place la reine
             board.append([row, col])
 
-            # Recurse to next row
+            # Recursion vers la ligne suivante
             solve_nqueens(n, row + 1, board, solutions)
 
-            # Backtrack: remove queen to try next position
+            # Backtrack: retire la reine pour essayer la position suivante
             board.pop()
 
 
 def print_solutions(solutions):
     """
-    Print all found solutions
+    Affiche toutes les solutions trouvees
 
     Args:
-        solutions: List of all solutions
+        solutions: Liste de toutes les solutions
     """
     for solution in solutions:
         print(solution)
@@ -76,30 +77,30 @@ def print_solutions(solutions):
 
 def main():
     """
-    Main function: validate input and launch solver
+    Fonction principale: valide l'entree et lance le solveur
     """
-    # Check number of arguments
+    # Verifie le nombre d'arguments
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
 
-    # Validate N is an integer
+    # Valide que N est un entier
     try:
         n = int(sys.argv[1])
     except ValueError:
         print("N must be a number")
         sys.exit(1)
 
-    # Validate N is at least 4
+    # Valide que N est au moins 4
     if n < 4:
         print("N must be at least 4")
         sys.exit(1)
 
-    # Initialize and solve
+    # Initialise et resout
     solutions = []
     solve_nqueens(n, 0, [], solutions)
 
-    # Display results
+    # Affiche les resultats
     print_solutions(solutions)
 
 
