@@ -3,6 +3,38 @@
 #include "search.h"
 
 /**
+ * alloc_skiplist_nodes - Alloue les noeuds d'une skip list à partir d'un tableau
+ * @array: tableau d'entiers
+ * @size: taille du tableau
+ *
+ * Retourne un pointeur vers la tête de la liste, ou NULL en cas d'échec
+ */
+skiplist_t *alloc_skiplist_nodes(int *array, size_t size)
+{
+	skiplist_t *list = NULL;
+	skiplist_t *node = NULL;
+
+	while (array && size--)
+	{
+		node = malloc(sizeof(*node));
+		if (!node)
+		{
+			free_skiplist(list);
+			return (NULL);
+		}
+		node->n = array[size];
+		node->index = size;
+		node->express = NULL;
+		node->next = list;
+		list = node;
+	}
+	return (list);
+}
+#include <stdlib.h>
+#include <math.h>
+#include "search.h"
+
+/**
  * init_express - Initializes the express lane of the linked list
  * @list: Pointer to the head node of the list
  * @size: Number of nodes in the list
@@ -27,35 +59,19 @@ void init_express(skiplist_t *list, size_t size)
 }
 
 /**
- * create_skiplist - Creates a single linked list (skip list)
- * @array: Pointer to the array used to fill the list
- * @size: Size of the array
+ * create_skiplist - Crée une skip list à partir d'un tableau d'entiers
+ * @array: Pointeur vers le tableau d'entiers
+ * @size: Taille du tableau
  *
- * Return: A pointer to the head of the created list (NULL on failure)
- *
- * Description: Allocates nodes for each array element, links them,
- * and initializes the express lanes for fast traversal.
+ * Return: Pointeur vers la tête de la liste créée (NULL en cas d'échec)
  */
 skiplist_t *create_skiplist(int *array, size_t size)
 {
-	skiplist_t *list = NULL;
-	skiplist_t *node = NULL;
-	size_t save_size = size;
+	skiplist_t *list;
 
-	while (array && size--)
-	{
-		node = malloc(sizeof(*node));
-		if (!node)
-		{
-			free_skiplist(list);
-			return (NULL);
-		}
-		node->n = array[size];
-		node->index = size;
-		node->express = NULL;
-		node->next = list;
-		list = node;
-	}
-	init_express(list, save_size);
+	list = alloc_skiplist_nodes(array, size);
+	if (!list)
+		return (NULL);
+	init_express(list, size);
 	return (list);
 }
