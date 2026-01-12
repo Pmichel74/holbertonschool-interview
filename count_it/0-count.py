@@ -89,4 +89,3 @@ def count_words(subreddit, word_list):
     # Print results
     for word, count in sorted_items:
         print(f"{word}: {count}")
-        
