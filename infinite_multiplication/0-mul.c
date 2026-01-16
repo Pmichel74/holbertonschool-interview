@@ -51,22 +51,17 @@ int _strlen(char *str)
 }
 
 /**
- * multiply - Multiplies two positive numbers
+ * perform_multiplication - Performs the multiplication algorithm
  * @num1: First number as string
  * @num2: Second number as string
+ * @result: Array to store the result
+ * @len1: Length of num1
+ * @len2: Length of num2
  */
-void multiply(char *num1, char *num2)
+void perform_multiplication(char *num1, char *num2, int *result,
+							int len1, int len2)
 {
-	int len1, len2, len_result, i, j, n1, n2, sum, carry, k, start_print;
-	int *result;
-
-	len1 = _strlen(num1);
-	len2 = _strlen(num2);
-	len_result = len1 + len2;
-
-	result = calloc(len_result, sizeof(int));
-	if (!result)
-		print_error_and_exit();
+	int i, j, n1, n2, sum, carry;
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
@@ -83,9 +78,19 @@ void multiply(char *num1, char *num2)
 
 		result[i + j + 1] += carry;
 	}
+}
+
+/**
+ * print_result - Prints the result array
+ * @result: Array containing the result
+ * @len: Length of the result array
+ */
+void print_result(int *result, int len)
+{
+	int k, start_print;
 
 	start_print = 0;
-	for (k = 0; k < len_result; k++)
+	for (k = 0; k < len; k++)
 	{
 		if (result[k] != 0)
 			start_print = 1;
@@ -97,6 +102,29 @@ void multiply(char *num1, char *num2)
 		_putchar('0');
 
 	_putchar('\n');
+}
+
+/**
+ * multiply - Multiplies two positive numbers
+ * @num1: First number as string
+ * @num2: Second number as string
+ */
+void multiply(char *num1, char *num2)
+{
+	int len1, len2, len_result;
+	int *result;
+
+	len1 = _strlen(num1);
+	len2 = _strlen(num2);
+	len_result = len1 + len2;
+
+	result = calloc(len_result, sizeof(int));
+	if (!result)
+		print_error_and_exit();
+
+	perform_multiplication(num1, num2, result, len1, len2);
+	print_result(result, len_result);
+
 	free(result);
 }
 
