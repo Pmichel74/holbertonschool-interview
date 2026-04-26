@@ -4,7 +4,7 @@
 
 def isWinner(x, nums):
     """Determine who wins the most rounds of the prime game"""
-    if not nums or x == 0:
+    if not nums or x <= 0:
         return None
 
     max_n = max(nums)
